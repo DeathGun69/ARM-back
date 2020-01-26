@@ -35,8 +35,8 @@ namespace TeacherARMBackend
                 case "update": Type = RequestType.Update; break;
                 case "select": Type = RequestType.Select; break;
             }
-
-            Params = input.GetProperty("params");
+            //Пока они не очень нужны
+            //Params = input.GetProperty("params");
         }
 
     }
