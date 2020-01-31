@@ -1,0 +1,130 @@
+
+.img-icon{
+    width: 100%;
+    height: auto;
+    align-self: auto;
+    padding: 0.1em;
+}
+.bar-item{
+color: #ffffff;
+font: 1em sans-serif;
+padding: 1em;
+padding-left: 0.5em;
+border-bottom: 0.3em solid white;
+}
+.bar-item:hover{
+    background: #3899e9;
+    transition: 0.2s ;
+}
+.bar-item:focus {
+    color: #000;
+    background-color: white;
+    transition: 0.2s ;
+}  
+.bar-text{
+    border-right: 0.1em solid white;
+    font: 2em sans-serif;
+text-align: left;}
+.container-fluid {  
+    padding: 0;
+    margin: 0;
+}
+.bar{
+    background: #1b7dce;
+    height: 100%;
+padding: 0;
+    margin: 0;
+}
+@keyframes anim{
+0%{
+    opacity: 0;
+    transform: translateY(-20%);
+}
+100%{
+    opacity: 1;
+    transform: translateY(0%);
+}
+}
+html, body {
+    height : 100%;
+    padding: 0;
+    margin: 0;
+    
+}
+#back1 {
+    background : #2f568f;
+    height: 100%;
+    min-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex-center1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+}
+.login1{
+  animation: anim 1s forwards;
+    position: relative;
+    margin: 0 auto;
+    background: #fff;
+    max-width: 350px;
+    box-shadow: 3px 3px 10px #333;
+    padding: 15px 15px 0 15px;
+}
+.login2{
+    animation: anim 1s alternate-reverse forwards;
+      position: relative;
+      margin: 0 auto;
+      background: #fff;
+      max-width: 350px;
+      box-shadow: 3px 3px 10px #333;
+      padding: 15px 15px 0 15px;
+  }
+ h2 {
+    text-align: center;
+    font-weight: 200;
+    font-size: 2.6em;
+    margin: 0 0 10px 0;
+    padding: 0 0 10px 0;
+    border-bottom: 1px solid #eeeeee;
+    color: #474747;
+}
+ .form1 {
+    padding-top: 20px;
+    text-align: center;
+}
+ input[type="text"], 
+ input[type="password"],
+ button {
+    margin-bottom: 25px;
+    height: 40px;
+    outline: 0;
+}
+ input[type="text"],
+ input[type="password"] {
+    border: 1px solid #bbb;
+    padding: 0 0 0 5px;
+    font-size: 20px;
+}
+ input[type="text"]:focus,
+ input[type="password"]:focus {
+    border: 2px solid #2196f3;
+    transition: 0.2s ;
+}
+ button {
+    width: 80%;
+    background: #1b7dce;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 200;
+    cursor: pointer;
+    transition: box-shadow .4s ease;
+}
+button:hover {
+    width: 80%;
+    background: #29b1f0;
+    transition: 0.3s ;
+}
