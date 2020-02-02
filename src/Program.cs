@@ -33,7 +33,7 @@ namespace TeacherARMBackend
         static Func<HttpListenerContext, String> CreateHandler() => (HttpListenerContext ctx) =>
         {
             Func<String, String> createResult = (String text) => "{\"result\":\"{\"" + text + "\"}";
-
+            ctx.Response.AddHeader("Content-Type", "application/json");
             var outputString = createResult("Method is not implemented");
 
             if (!ctx.Request.QueryString.AllKeys.Contains("request"))
@@ -60,7 +60,7 @@ namespace TeacherARMBackend
                 }
             }
             Console.WriteLine(DateTime.Now + ":IN:" + ctx.Request.RawUrl + ":OUT:" + outputString);
-            return outputString;
+            return outputString.Replace("\\u0022", "\"");
         };
 
 

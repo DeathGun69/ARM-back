@@ -4,6 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 using System.Text.Json;
+using System.Text.Encodings.Web;
+using System.Text.Encodings;
+using System.Text.Unicode;
+
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -61,12 +65,14 @@ namespace TeacherARMBackend
 
 
             //что то не так с кодировками 
-            JsonSerializerOptions jso = new JsonSerializerOptions();
-            jso.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
-
+            JsonSerializerOptions jso = new JsonSerializerOptions();            
+            jso.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
+            jso.PropertyNameCaseInsensitive = false;
+            jso.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            jso.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
             response.result.Add("cources", JsonSerializer.Serialize<IEnumerable<Course>>(cources, jso));
             response.result.Add("lessons", JsonSerializer.Serialize<IEnumerable<Lesson>>(lessons, jso));
-            response.result.Add("themes", JsonSerializer.Serialize<IEnumerable<Theme>>(themes, jso));
+            response.result.Add("themes", JsonSerializer.Serialize<IEnumerable<Theme>>(themes,jso));
 
             return JsonSerializer.Serialize<Dictionary<string, string>>(response.result, jso);
         }
