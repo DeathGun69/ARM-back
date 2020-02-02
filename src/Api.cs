@@ -13,13 +13,14 @@ namespace TeacherARMBackend
     {
         public enum RequestType
         {
+            None,
             Test,
             Insert,
             Delete,
             Update,
             Select
         }
-        public RequestType Type { get; }
+        public RequestType Type { get; } = RequestType.None;
 
         public JsonElement Params { get; }
 

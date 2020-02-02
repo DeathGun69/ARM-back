@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+
 using System.Net;
 
 using System.IO;
@@ -30,17 +32,34 @@ namespace TeacherARMBackend
 
         static Func<HttpListenerContext, String> CreateHandler() => (HttpListenerContext ctx) =>
         {
-            var rawString = new StreamReader(ctx.Request.InputStream).ReadToEnd();
-            Console.WriteLine("INPUT: " + rawString);
-            var request = new RequestBody(rawString);
+            Func<String, String> createResult = (String text) => "{\"result\":\"{\"" + text + "\"}";
 
-            var outputString = "{\"result\":\"Method is not implemented\"}";
-            if (request.Type == RequestBody.RequestType.Test) {
-                outputString = TestResponse.HandleTest();
-            } else if (request.Type == RequestBody.RequestType.Select) {
-                outputString = SelectResponse.HandleSelect();
+            var outputString = createResult("Method is not implemented");
+
+            if (!ctx.Request.QueryString.AllKeys.Contains("request"))
+            {
+                outputString = createResult("Request must be in request variable. Example: http://192.168.0.1:25555/?request={\"method\":\"text\"");
             }
-            Console.WriteLine(outputString);
+            else
+            {
+                try
+                {
+                    var request = new RequestBody(ctx.Request.QueryString["request"]);                    
+                    if (request.Type == RequestBody.RequestType.Test)
+                    {
+                        outputString = TestResponse.HandleTest();
+                    }
+                    else if (request.Type == RequestBody.RequestType.Select)
+                    {
+                        outputString = SelectResponse.HandleSelect();
+                    }
+                }
+                catch (System.Text.Json.JsonException ex)
+                {
+                    outputString = createResult("Json error: " + ex.Message);
+                }
+            }
+            Console.WriteLine(DateTime.Now + ":IN:" + ctx.Request.RawUrl + ":OUT:" + outputString);
             return outputString;
         };
 
