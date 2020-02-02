@@ -38,7 +38,7 @@ namespace TeacherARMBackend
 
             if (!ctx.Request.QueryString.AllKeys.Contains("request"))
             {
-                outputString = createResult("Request must be in request variable. Example: http://192.168.0.1:25555/?request={\"method\":\"text\"");
+                outputString = createResult("Request must be in request variable. Example: http://IP:PORT/?request={\"method\":\"test\"}");
             }
             else
             {
