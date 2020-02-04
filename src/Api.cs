@@ -56,7 +56,7 @@ namespace TeacherARMBackend
         public Dictionary<string, string> result = new Dictionary<string, string>();
 
         public static string HandleSelect() {
-            ITeacherDataBase dataBase = MockDataBase.DataBase;
+            /*ITeacherDataBase dataBase = MockDataBase.DataBase;
             var cources = dataBase.GetCourses();
             var lessons = dataBase.GetLessons();
             var themes = dataBase.GetThemes();
@@ -74,7 +74,8 @@ namespace TeacherARMBackend
             response.result.Add("lessons", JsonSerializer.Serialize<IEnumerable<Lesson>>(lessons, jso));
             response.result.Add("themes", JsonSerializer.Serialize<IEnumerable<Theme>>(themes,jso));
 
-            return JsonSerializer.Serialize<Dictionary<string, string>>(response.result, jso);
+            return JsonSerializer.Serialize<Dictionary<string, string>>(response.result, jso);*/
+            return "nothing";
         }
     }
 }
