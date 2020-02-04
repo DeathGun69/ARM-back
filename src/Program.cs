@@ -9,7 +9,7 @@ namespace TeacherARMBackend
 {
     class Program
     {
-        static void Main(string[] args)
+        /*static void Main(string[] args)
         {
             (string ip, string port) settings = ("*", "25555");
             try
@@ -26,7 +26,7 @@ namespace TeacherARMBackend
             var listener = new ConnectionHandler(settings.ip, settings.port, CreateHandler());
 
             listener.StartHandling();
-        }
+        }*/
 
         static (String ip, String port) ParseArgs(string[] args) => (args[0], args[1]);
 
