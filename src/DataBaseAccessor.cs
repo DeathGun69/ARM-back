@@ -10,7 +10,7 @@ using Npgsql;
 namespace TeacherARMBackend
 {
 
-    public class Comteptence
+    public class Competence
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -62,23 +62,26 @@ namespace TeacherARMBackend
 
         public DataBaseAccessor()
         {
-            try {
+            try
+            {
                 GetCompetence();
                 Console.WriteLine("Successful access to database!");
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Console.WriteLine("Database error");
                 Console.WriteLine(e.Message);
             }
         }
 
-        public IEnumerable<Comteptence> GetCompetence()
+        public IEnumerable<Competence> GetCompetence()
         {
             using var conn = new NpgsqlConnection(CONNECTION_STRING);
             conn.Open();
             using var command = new NpgsqlCommand("SELECT id, name, code FROM competence", conn);
             using var reader = command.ExecuteReader();
             while (reader.Read())
-                yield return new Comteptence
+                yield return new Competence
                 {
                     id = (int)reader[0],
                     name = (string)reader[1],
@@ -137,14 +140,15 @@ namespace TeacherARMBackend
                 {
                     id = (int)reader[0],
                     name = (string)reader[1],
-                    hours = (int) reader[2],                    
-                    id_competence = (int) reader[3],
+                    hours = (int)reader[2],
+                    id_competence = (int)reader[3],
                     lesson_type = (string)reader[4]
                 };
             conn.Close();
         }
 
-        public IEnumerable<Section> GetSections() {
+        public IEnumerable<Section> GetSections()
+        {
             using var conn = new NpgsqlConnection(CONNECTION_STRING);
             conn.Open();
             using var command = new NpgsqlCommand("SELECT id, name, id_theme, id_course FROM section", conn);
@@ -152,16 +156,16 @@ namespace TeacherARMBackend
             while (reader.Read())
                 yield return new Section
                 {
-                    id = (int) reader[0],
-                    name = (string) reader[1],
-                    id_theme = (int) reader[2],
-                    id_course = (int) reader[3]
+                    id = (int)reader[0],
+                    name = (string)reader[1],
+                    id_theme = (int)reader[2],
+                    id_course = (int)reader[3]
                 };
             conn.Close();
         }
 
 
-        public static void Main(String[] args)
+        /*public static void Main(String[] args)
         {
             var db = new DataBaseAccessor();
             foreach (var course in db.GetCourses())
@@ -178,6 +182,6 @@ namespace TeacherARMBackend
 
             foreach (var course in db.GetSections())
                 Console.WriteLine(course.name, course.id_course);
-        }
+        }*/
     }
 }

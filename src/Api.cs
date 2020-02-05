@@ -41,41 +41,50 @@ namespace TeacherARMBackend
                 case "select": Type = RequestType.Select; break;
             }
             //Пока они не очень нужны
-            //Params = input.GetProperty("params");
+            Params = input.GetProperty("params");
         }
 
     }
     class TestResponse
     {
-        public string result {get; } = "This is the Test response. If you read this message it means that server is running and ready to go";
-        public static string HandleTest() => JsonSerializer.Serialize<TestResponse>(new TestResponse());
+        public static string HandleTest() => "This is the Test response. If you read this message it means that server is running and ready to go";
     }
 
-    class SelectResponse {
+    /*ITeacherDataBase dataBase = MockDataBase.DataBase;
+           var cources = dataBase.GetCourses();
+           var lessons = dataBase.GetLessons();
+           var themes = dataBase.GetThemes();
 
-        public Dictionary<string, string> result = new Dictionary<string, string>();
-
-        public static string HandleSelect() {
-            /*ITeacherDataBase dataBase = MockDataBase.DataBase;
-            var cources = dataBase.GetCourses();
-            var lessons = dataBase.GetLessons();
-            var themes = dataBase.GetThemes();
-
-            var response = new SelectResponse();
+           var response = new SelectResponse();
 
 
-            //что то не так с кодировками 
-            JsonSerializerOptions jso = new JsonSerializerOptions();            
-            jso.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
-            jso.PropertyNameCaseInsensitive = false;
-            jso.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-            jso.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
-            response.result.Add("cources", JsonSerializer.Serialize<IEnumerable<Course>>(cources, jso));
-            response.result.Add("lessons", JsonSerializer.Serialize<IEnumerable<Lesson>>(lessons, jso));
-            response.result.Add("themes", JsonSerializer.Serialize<IEnumerable<Theme>>(themes,jso));
+           //что то не так с кодировками 
+           JsonSerializerOptions jso = new JsonSerializerOptions();            
+           jso.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
+           jso.PropertyNameCaseInsensitive = false;
+           jso.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+           jso.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+           response.result.Add("cources", JsonSerializer.Serialize<IEnumerable<Course>>(cources, jso));
+           response.result.Add("lessons", JsonSerializer.Serialize<IEnumerable<Lesson>>(lessons, jso));
+           response.result.Add("themes", JsonSerializer.Serialize<IEnumerable<Theme>>(themes,jso));
 
-            return JsonSerializer.Serialize<Dictionary<string, string>>(response.result, jso);*/
+           return JsonSerializer.Serialize<Dictionary<string, string>>(response.result, jso);*/
+
+
+    public static class Handlers
+    {
+
+        public static string[] TableNames { get; } = { "course", "section", "user", "competence", "theme" };
+
+        public static string HandleSelect(string tableName)
+        {
             return "nothing";
         }
+
+        public static int HandleDelete(string tableName, IEnumerable<int> ids)
+        {
+            return 0;
+        }
     }
+
 }
