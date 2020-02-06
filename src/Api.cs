@@ -85,6 +85,10 @@ namespace TeacherARMBackend
         {
             return 0;
         }
+
+        public static int HandleInsert(string tableName ) {
+            
+        }
     }
 
 }

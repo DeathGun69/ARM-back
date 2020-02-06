@@ -36,7 +36,7 @@ namespace TeacherARMBackend
             Func<String, String> createError = (String text) => "{\"error\":\"{\"" + text + "\"}";
             Func<String, String> createResult = (String text) => "{\"result\":\"{\"" + text + "\"}";
             ctx.Response.AddHeader("Content-Type", "application/json");
-            var outputString = createError("Method is not implemented");
+            var outputString = "";
 
             if (!ctx.Request.QueryString.AllKeys.Contains("request"))
             {
@@ -46,45 +46,64 @@ namespace TeacherARMBackend
             {
                 try
                 {
-                    var request = new RequestBody(ctx.Request.QueryString["request"]);                    
-                    if (request.Type == RequestBody.RequestType.Test)
+                    var request = new RequestBody(ctx.Request.QueryString["request"]);
+                    switch (request.Type)
                     {
-                        outputString = createResult(TestResponse.HandleTest());
-                    }
-                    else if (request.Type == RequestBody.RequestType.Select)
-                    {
-                        if (request.Params.TryGetProperty("table_name", out var element)) {
-                            var table_name = element.GetString();
-                            if (Handlers.TableNames.Contains(table_name)) {
-                                outputString = createResult(Handlers.HandleSelect(table_name));
-                            } else {
-                                outputString = createError(table_name + " is not exists");
-                            }
-                        } else {
-                            outputString = createError("Select request must contain table_name variable");
+                        default: {
+                            outputString = createError("Method is not implemented");
+                            break;
                         }
-                    } else if (request.Type == RequestBody.RequestType.Delete) 
-                    {
-                        foreach (var element in request.Params.EnumerateArray()) {
-                            if (request.Params.TryGetProperty("table_name", out var el_table_name)) {
-                                var table_name = el_table_name.GetString();
-                                if (!Handlers.TableNames.Contains(table_name)) {
-                                    outputString = createError(table_name + " not exists");
-                                    break;
-                                }                           
-                                
-                                if (request.Params.TryGetProperty("rows", out var el_rows)) {    
-                                    outputString = createResult( Handlers.HandleDelete(table_name, el_rows.EnumerateArray().ToList().Select(x => x.GetInt32())).ToString() );
-                                } else {
-                                    outputString = createError("All elements must have rows");
-                                    break;
-                                }
-                            } else {
-                                outputString = createError("All elements must have table_name");
+                        case RequestBody.RequestType.Test:
+                            {
+                                outputString = createResult(TestResponse.HandleTest());
                                 break;
                             }
-                        }
+                        case RequestBody.RequestType.Select:
+                            {
+                                if (request.Params.TryGetProperty("table_name", out var element))
+                                {
+                                    var table_name = element.GetString();
+                                    if (Handlers.TableNames.Contains(table_name))
+                                        outputString = createResult(Handlers.HandleSelect(table_name));
+                                    else
+                                        outputString = createError(table_name + " is not exists");
+                                }
+                                else
+                                    outputString = createError("Select request must contain table_name variable");
+                                break;
+                            }
+                        case RequestBody.RequestType.Delete:
+                            {
+                                foreach (var element in request.Params.EnumerateArray())
+                                {
+                                    if (request.Params.TryGetProperty("table_name", out var el_table_name))
+                                    {
+                                        var table_name = el_table_name.GetString();
+                                        if (!Handlers.TableNames.Contains(table_name))
+                                        {
+                                            outputString = createError(table_name + " not exists");
+                                            break;
+                                        }
+                                        if (request.Params.TryGetProperty("rows", out var el_rows))
+                                        {
+                                            outputString = createResult(Handlers.HandleDelete(table_name, el_rows.EnumerateArray().ToList().Select(x => x.GetInt32())).ToString());
+                                        }
+                                        else
+                                        {
+                                            outputString = createError("All elements must have rows");
+                                            break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        outputString = createError("All elements must have table_name");
+                                        break;
+                                    }
+                                }
+                                break;
+                            }
                     }
+
                 }
                 catch (System.Text.Json.JsonException ex)
                 {
@@ -94,8 +113,8 @@ namespace TeacherARMBackend
             Console.WriteLine(DateTime.Now + ":IN:" + ctx.Request.RawUrl + ":OUT:" + outputString);
             return outputString.Replace("\\u0022", "\"");
         };
-        
-      
+
+
 
 
 
