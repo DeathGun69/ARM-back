@@ -99,13 +99,13 @@ namespace TeacherARMBackend
             while (reader.Read())
                 yield return new Course
                 {
-                    id = (int)reader[0],
-                    name = (string)reader[1],
-                    univer = (string)reader[2],
-                    hours = (int)reader[3],
-                    groups = (string[])reader[4],
-                    id_teacher = (int)reader[5],
-                    id_competence = (int)reader[6]
+                    id = (int) reader[0],
+                    name = (string) reader[1],
+                    univer = (string) reader[2],
+                    hours = (int) reader[3],
+                    groups = (string[]) reader[4],
+                    id_teacher = (int) reader[5],
+                    id_competence = (int) reader[6]
                 };
             conn.Close();
         }

@@ -47,7 +47,6 @@ namespace TeacherARMBackend
     }
     class TestResponse
     {
-        public static string HandleTest() => "This is the Test response. If you read this message it means that server is running and ready to go";
     }
 
     /*ITeacherDataBase dataBase = MockDataBase.DataBase;
@@ -73,21 +72,39 @@ namespace TeacherARMBackend
 
     public static class Handlers
     {
-
+        
         public static string[] TableNames { get; } = { "course", "section", "user", "competence", "theme" };
 
-        public static string HandleSelect(string tableName)
-        {
-            return "nothing";
-        }
-
-        public static int HandleDelete(string tableName, IEnumerable<int> ids)
-        {
-            return 0;
-        }
-
-        public static int HandleInsert(string tableName ) {
+        //Вся валидация должна происходить до вызова методов. В коментах написаны сигнатуры методов АПИ   
+        //method:test        
+        public static string HandleTest() => "{\"message\":\"This is the Test response. If you read this message it means that server is running and ready to go\"}";
+        private class SelectResponse {
             
+        }
+        
+        //method:select 
+        //params:table_name:string
+        public static string HandleSelect(JsonElement param)
+        {
+            JsonElement json = new JsonElement();
+            return "nothing";
+        }        
+        //method:delete 
+        //params:[table_name: string, rows: []] 
+        public static string HandleDelete(JsonElement param)
+        {
+            return "0";
+        }
+        //method:insert
+        //params:[table_name: string, rows: []] 
+        public static string HandleInsert(JsonElement param) {
+
+            return "0";
+        }
+        //method:update 
+        //params:[table_name:string , rows: []] 
+        public static string HandleUpdate(JsonElement param) {
+            return "0";
         }
     }
 

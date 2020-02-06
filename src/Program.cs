@@ -49,57 +49,66 @@ namespace TeacherARMBackend
                     var request = new RequestBody(ctx.Request.QueryString["request"]);
                     switch (request.Type)
                     {
-                        default: {
-                            outputString = createError("Method is not implemented");
-                            break;
-                        }
+                        default:
+                            {
+                                outputString = createError("Method is not implemented");
+                                break;
+                            }
                         case RequestBody.RequestType.Test:
                             {
-                                outputString = createResult(TestResponse.HandleTest());
+                                outputString = createResult(Handlers.HandleTest());
                                 break;
                             }
                         case RequestBody.RequestType.Select:
                             {
-                                if (request.Params.TryGetProperty("table_name", out var element))
-                                {
-                                    var table_name = element.GetString();
-                                    if (Handlers.TableNames.Contains(table_name))
-                                        outputString = createResult(Handlers.HandleSelect(table_name));
+                                if (request.Params.TryGetProperty("table_name", out var el_table_name))
+                                    if (!Handlers.TableNames.Contains(el_table_name.GetString()))
+                                        outputString = createError(el_table_name.GetString() + " is not exists");
                                     else
-                                        outputString = createError(table_name + " is not exists");
-                                }
+                                        outputString = createResult(Handlers.HandleSelect(request.Params).ToString());
                                 else
                                     outputString = createError("Select request must contain table_name variable");
+
                                 break;
                             }
                         case RequestBody.RequestType.Delete:
                             {
-                                foreach (var element in request.Params.EnumerateArray())
-                                {
-                                    if (request.Params.TryGetProperty("table_name", out var el_table_name))
-                                    {
-                                        var table_name = el_table_name.GetString();
-                                        if (!Handlers.TableNames.Contains(table_name))
-                                        {
-                                            outputString = createError(table_name + " not exists");
-                                            break;
-                                        }
-                                        if (request.Params.TryGetProperty("rows", out var el_rows))
-                                        {
-                                            outputString = createResult(Handlers.HandleDelete(table_name, el_rows.EnumerateArray().ToList().Select(x => x.GetInt32())).ToString());
-                                        }
-                                        else
-                                        {
-                                            outputString = createError("All elements must have rows");
-                                            break;
-                                        }
-                                    }
+                                if (request.Params.TryGetProperty("table_name", out var el_table_name))
+                                    if (!Handlers.TableNames.Contains(el_table_name.GetString()))
+                                        outputString += createError(el_table_name.GetString() + " not exists\n");
+                                    else if (request.Params.TryGetProperty("rows", out _))
+                                        outputString = createResult(Handlers.HandleDelete(request.Params));
                                     else
-                                    {
-                                        outputString = createError("All elements must have table_name");
-                                        break;
-                                    }
-                                }
+                                        outputString += createError("Rows are not provided\n");
+                                else
+                                    outputString += createError("All elements must have table_name\n");
+
+                                break;
+                            }
+                        case RequestBody.RequestType.Insert:
+                            {
+                                if (request.Params.TryGetProperty("table_name", out var el_table_name))
+                                    if (!Handlers.TableNames.Contains(el_table_name.GetString()))
+                                        outputString += createError(el_table_name.GetString() + " not exists\n");
+                                    else if (request.Params.TryGetProperty("rows", out _))
+                                        outputString = createResult(Handlers.HandleInsert(request.Params));
+                                    else
+                                        outputString += createError("Rows are not provided\n");
+                                else
+                                    outputString += createError("All elements must have table_name\n");
+                                break;
+                            }
+                        case RequestBody.RequestType.Update:
+                            {
+                                if (request.Params.TryGetProperty("table_name", out var el_table_name))
+                                    if (!Handlers.TableNames.Contains(el_table_name.GetString()))
+                                        outputString += createError(el_table_name.GetString() + " not exists\n");
+                                    else if (request.Params.TryGetProperty("rows", out _))
+                                        outputString = createResult(Handlers.HandleUpdate(request.Params));
+                                    else
+                                        outputString += createError("Rows are not provided\n");
+                                else
+                                    outputString += createError("All elements must have table_name\n");
                                 break;
                             }
                     }
