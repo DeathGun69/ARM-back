@@ -1,0 +1,154 @@
+<html>
+
+<head>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="jsmenu.js"></script>
+  <link rel="stylesheet" type="text/css" href="stylemenu.css">
+</head>
+
+<body>
+
+
+  <nav id="menu" role="navigation">
+
+
+
+   <ul>
+      <li> <a href="#" class="btn btn-primary" class="row" >курсы</a></li>
+    <li><a href="#" class="btn btn-primary">пары</a></li>
+    <li><a href="#" class="btn btn-primary">группы</a></li>
+    <li><a href="#">...</a></li>
+    <li><a href="#">...</a></li>
+     </ul>
+    
+      
+      
+    </div>
+
+  </nav>
+
+  
+
+
+  <div class="page-wrap">
+
+    
+
+    <button id="menu-toggle"></button>
+
+    <div class="container-fluid">
+      <div class="row">
+        
+     
+    <form>
+      <h1 class="text-center">Список курсов </h1>
+      <div class="container-fluid">
+        <h1 class="text">Курс 1</h1>
+        <button type="button" class="btn btn-outline-primary"  data-toggle="modal" data-target="#exampleModal">Редактировать</button>
+        <button type="button" class="btn btn-outline-primary">Удалить</button>
+        
+      </div>
+      <button type="button" class="btn btn-outline-primary"  data-toggle="modal" data-target="#exampleModa">Добавить курс</button>
+    </form>
+          
+      </div>
+    </div>
+
+  </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Редактирование курса</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <label for="exampleInputEmail1">Название курса</label>
+            <input class="form-control" type="text">
+          </div>
+          <div class="container-fluid">
+            <label for="exampleInputPassword1">Университет</label>
+            <input class="form-control" type="text">
+          </div>
+          <div class="container-fluid">
+            <label for="exampleInputPassword1">Количество часов</label>
+            <input class="form-control" type="text">
+          </div>
+          <div class="container-fluid">
+            <label for="exampleInputPassword1">Группа</label>
+            <input class="form-control" type="text">
+          </div>
+          <div class="container-fluid">
+            <label for="exampleInputPassword1">Компетенции</label>
+            <select class="form-control">
+              <option>Выбор компетенции</option>
+              <option>ПК</option>
+              <option>ОПК</option>
+              
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Выйти</button>
+          <button type="button" class="btn btn-primary">Сохранить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+  <div class="modal fade" id="exampleModa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Добавление курса</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <label for="exampleInputEmail1">Название курса</label>
+            <input class="form-control" type="text">
+          </div>
+          <div class="container-fluid">
+            <label for="exampleInputPassword1">Университет</label>
+            <input class="form-control" type="text">
+          </div>
+          <div class="container-fluid">
+            <label for="exampleInputPassword1">Количество часов</label>
+            <input class="form-control" type="text">
+          </div>
+          <div class="container-fluid">
+            <label for="exampleInputPassword1">Группа</label>
+            <input class="form-control" type="text">
+          </div>
+          <div class="container-fluid">
+            <label for="exampleInputPassword1">Компетенции</label>
+            <select class="form-control">
+              <option>Выбор компетенции</option>
+              <option>ПК</option>
+              <option>ОПК</option>
+              
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Выйти</button>
+          <button type="button" class="btn btn-primary">Сохранить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+
+  </body>
+  
+  </html>
