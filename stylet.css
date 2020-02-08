@@ -1,0 +1,43 @@
+.tabt{
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    background-color: rgb(196, 211, 238);
+}
+.tabb{
+  
+    text-align: center;
+    font-size: 18px;
+
+}
+th{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.title{margin-left: 40px;}
+table{
+    margin: 20px;
+   padding: 10px;
+}
+.button {
+margin-left: 10px;
+
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 80%;
+    background: #1b7dce;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 200;
+    cursor: pointer;
+    transition: box-shadow .4s ease;  
+    
+}
+.button:hover {
+    width: 80%;
+    background: #29b1f0;
+    transition: 0.3s ;
+}

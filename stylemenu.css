@@ -1,0 +1,119 @@
+body{
+    background: #faf9f9;
+    }
+    #menu {
+        
+     position: fixed;
+     padding-top:70;
+     left: -300px;
+     width: 300px;
+     height: 100%;
+    
+     -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     box-sizing: border-box;
+     -webkit-transition: all .3s ease-in;
+     -moz-transition: all .3s ease-in;
+     -o-transition: all .3s ease-in;
+     transition: all .3s ease-in;
+   
+     background-color: #2f568f;
+    }
+
+    #menu ul {
+     
+     padding: 0;
+   
+    }
+    #menu ul li {
+    list-style-type:none;
+    text-align: left;
+    }
+    #menu ul li a {
+  padding-left: 30;
+     display: block;
+     font-weight: 900;
+     line-height: 50px;
+     -webkit-transition: all .3s ease;
+     -moz-transition: all .3s ease;
+     -o-transition: all .3s ease;
+     transition: all .3s ease;
+     text-decoration: none;
+     text-transform: uppercase;
+     color: #ffffff;
+    
+    }
+    #menu ul li:last-child a {
+     border-bottom: 1px solid #eee;
+
+    }
+    #menu ul li :hover {
+        background: #fff;
+     
+       
+       }
+    #menu ul li a:hover {
+     letter-spacing: 1px;
+     color: #000;
+     
+    }
+    body.open #menu {
+     left: 0;
+    }
+    .page-wrap { 
+     padding: 50px;
+     -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     box-sizing: border-box;
+     -webkit-transition: all .3s ease-in;
+     -moz-transition: all .3s ease-in;
+     -o-transition: all .3s ease-in;
+     transition: all .3s ease-in;
+    }
+    body.open .page-wrap {
+     margin-left: 300px;
+    }
+    button:focus {
+     outline: none;
+    }
+    #menu-toggle {
+     position: absolute;
+     left: 10px;
+     top: 10px;
+     width: 51px;
+     height: 51px;
+     cursor: pointer;
+     border: none;
+     -webkit-border-radius: 50px;
+     -moz-border-radius: 50px;
+     border-radius: 50px;
+     background: #2f568f;
+    }
+    #menu-toggle:before,
+    #menu-toggle:after {
+     position: absolute;
+     content: "";
+     -webkit-transition: all .5s ease;
+     -moz-transition: all .5s ease;
+     -o-transition: all .5s ease;
+     transition: all .5s ease;
+     background-color: #ffffff;
+    }
+    #menu-toggle:before {
+     top: 12px;
+     left: 25px;
+     width: 1px;
+     height: 27px;
+    }
+    #menu-toggle:after {
+     top: 25px;
+     left: 12px;
+     width: 27px;
+     height: 1px;
+    }
+    body.open button#menu-toggle:before,
+    body.open button#menu-toggle:after {
+     -webkit-transform: rotate(45deg);
+     -ms-transform: rotate(45deg);
+     transform: rotate(45deg);
+    }

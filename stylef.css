@@ -1,0 +1,144 @@
+
+.img{width: 30px;
+height: 30px;}
+.img:hover{
+    width: 35px;
+    height: auto;
+    transition: 0.3s ;
+}
+.form{
+    background-color: #fff;
+   position: absolute;
+
+}
+
+
+.container-fluid {  
+    padding: 0;
+    margin: 0;
+}
+
+
+
+html, body {
+    background-color: #1b7dce;
+    height : 100%;
+    padding: 0;
+    margin: 0;
+    
+}
+#back1 {
+    background : #c0d1e4;
+    height: 100%;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex-center1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;   
+}
+.login1{
+  animation: anim 1s forwards;
+    position: relative;
+    margin: 0 auto;
+    background: #fff;
+  min-width: 500px;
+    box-shadow: 3px 3px 10px #333;
+    padding: 15px 15px 0 15px;
+}
+
+ h2 {
+    text-align: center;
+    font-weight: 200;
+    font-size: 2em;
+    margin: 0 0 10px 0;
+    padding: 0 0 10px 0;
+    border-bottom: 1px solid #eeeeee;
+    color: #474747;
+}
+ .form1 {
+    padding-top: 20px;
+    text-align: left;
+  
+}
+ input[type="text"], 
+ input[type="password"],
+ button {
+    margin-bottom: 25px;
+    height: 40px;
+    outline: 0;
+}
+ input[type="text"],
+ input[type="password"] {
+    border: 1px solid #bbb;
+    padding: 0 0 0 5px;
+    font-size: 20px;
+}
+ input[type="text"]:focus,
+ input[type="password"]:focus {
+    border: 2px solid #2196f3;
+    transition: 0.2s ;
+}
+ .button {
+    width: 150px;
+    background: #1b7dce;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 300px;
+    cursor: pointer;
+    transition: box-shadow .4s ease;
+    border-radius: 2rem;
+}
+.button:hover {
+    
+    background: #29b1f0;
+    transition: 0.3s ;
+}
+.buttonr {
+   width: 100px;
+    background: #939ca3;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 200px;
+    cursor: pointer;
+    transition: box-shadow .4s ease;
+    border-radius: 2rem;
+    margin-right: 0px;
+}
+.buttonr:hover {
+    color: #000;
+  
+    background: #ffffff;
+    transition: 0.3s ;
+    border-radius: 2rem;
+}
+.but{
+   
+    text-align: right;
+    margin-right: 20px;
+    border-top: 1px solid #eeeeee;
+    padding-top: 20px;
+}
+p{
+    margin-left: 10px;
+    text-align: left;
+    font-weight: 200px;
+    font-size: 1.2em;
+   
+    padding: 0 0 10px 0; 
+    color: #474747;
+}
+img{
+    margin-left: 10px;
+    margin-left: 10px;
+    
+}
+th{text-align: center;}
+select{width: auto;
+height: 30px;
+margin-bottom: 30px;}
