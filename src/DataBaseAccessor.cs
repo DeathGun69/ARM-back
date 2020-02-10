@@ -57,10 +57,11 @@ namespace TeacherARMBackend
     }
     class DataBaseAccessor
     {
+        public static DataBaseAccessor Instance {get => new DataBaseAccessor(); }
         static string CONNECTION_STRING = "Host=127.0.0.1;Port=5432;Username=admin;Password=admin;Database=arm_teacher";
 
 
-        public DataBaseAccessor()
+        private DataBaseAccessor()
         {
             try
             {
@@ -89,6 +90,18 @@ namespace TeacherARMBackend
                 };
             conn.Close();
         }
+        //TODO:
+        public bool UpdateCompetence(Competence rows) {
+            return false;
+        }
+
+        public bool DeleteCompetence(int id) {
+            return false;
+        }
+
+        public bool CreateCompetence(Competence rows) {
+            return false;
+        }
 
         public IEnumerable<Course> GetCourses()
         {
@@ -109,7 +122,19 @@ namespace TeacherARMBackend
                 };
             conn.Close();
         }
+        //TODO:
+        public bool UpdateCourse(Course rows) {
+            return false;
+        }
 
+        public bool DeleteCourse(int id) {
+            return false;
+        }
+
+        public bool CreateCourse(Course rows) {
+            return false;
+        }
+        //
         public IEnumerable<User> GetUsers()
         {
             using var conn = new NpgsqlConnection(CONNECTION_STRING);
@@ -128,6 +153,19 @@ namespace TeacherARMBackend
                 };
             conn.Close();
         }
+        //TODO:
+        public bool UpdateUser(User row) {
+            return false;
+        }
+
+        public bool DeleteUser(int id) {
+            return false;
+        }
+
+        public bool CreateUser(User row) {
+            return false;
+        }
+        //
 
         public IEnumerable<Theme> GetThemes()
         {
@@ -146,6 +184,20 @@ namespace TeacherARMBackend
                 };
             conn.Close();
         }
+        //TODO:
+        public bool UpdateTheme(Theme row) {
+            return false;
+        }
+
+        public bool DeleteTheme(int id) {
+            return false;
+        }
+
+        public bool CreateTheme(Theme row) {
+            return false;
+        }
+        //
+
 
         public IEnumerable<Section> GetSections()
         {
@@ -163,6 +215,19 @@ namespace TeacherARMBackend
                 };
             conn.Close();
         }
+        //TODO: 
+        public bool UpdateSection(Section row) {
+            return false;
+        }
+
+        public bool DeleteSection(int id) {
+            return false;
+        }
+
+        public bool CreateSection(Section row) {
+            return false;
+        }
+        //
 
 
         /*public static void Main(String[] args)

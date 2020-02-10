@@ -40,7 +40,7 @@ namespace TeacherARMBackend
                 case "update": Type = RequestType.Update; break;
                 case "select": Type = RequestType.Select; break;
             }
-            //Пока они не очень нужны
+            
             Params = input.GetProperty("params");
         }
 
@@ -72,40 +72,90 @@ namespace TeacherARMBackend
 
     public static class Handlers
     {
-        
         public static string[] TableNames { get; } = { "course", "section", "user", "competence", "theme" };
-
+        
         //Вся валидация должна происходить до вызова методов. В коментах написаны сигнатуры методов АПИ   
         //method:test        
         public static string HandleTest() => "{\"message\":\"This is the Test response. If you read this message it means that server is running and ready to go\"}";
-        private class SelectResponse {
-            
-        }
-        
+       
         //method:select 
         //params:table_name:string
         public static string HandleSelect(JsonElement param)
         {
-            JsonElement json = new JsonElement();
-            return "nothing";
-        }        
+            var tableName = param.GetProperty("table_name").GetString();
+
+            foreach (var row in param.EnumerateArray())
+            {
+                switch (tableName)
+                {
+                    case "course": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetCourses());
+                    case "section": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetSections());
+                    case "user": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetUsers());
+                    case "competence": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetCompetence());
+                    case "theme": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetThemes());
+                }
+            }
+            return "{}";
+        }
         //method:delete 
         //params:[table_name: string, rows: []] 
         public static string HandleDelete(JsonElement param)
         {
-            return "0";
+            var tableName = param.GetProperty("table_name").GetString();
+            int count = 0;
+            foreach (var row in param.EnumerateArray())
+            {
+                switch (tableName)
+                {
+                    case "course": DataBaseAccessor.Instance.DeleteCourse(row.GetInt32()); ++count; break;
+                    case "section": DataBaseAccessor.Instance.DeleteSection(row.GetInt32()); ++count; break;
+                    case "user": DataBaseAccessor.Instance.DeleteUser(row.GetInt32()); ++count; break;
+                    case "competence": DataBaseAccessor.Instance.DeleteCompetence(row.GetInt32()); ++count; break;
+                    case "theme": DataBaseAccessor.Instance.DeleteTheme(row.GetInt32()); ++count; break;
+                }
+            }
+            return count.ToString();
         }
         //method:insert
         //params:[table_name: string, rows: []] 
-        public static string HandleInsert(JsonElement param) {
-
-            return "0";
+        public static string HandleInsert(JsonElement param)
+        {
+            var tableName = param.GetProperty("table_name").GetString();
+            int count = 0;
+            foreach (var row in param.EnumerateArray())
+            {
+                switch (tableName)
+                {
+                    case "course": DataBaseAccessor.Instance.CreateCourse(JsonSerializer.Deserialize<Course>(row.GetRawText())); ++count; break;
+                    case "section": DataBaseAccessor.Instance.CreateSection(JsonSerializer.Deserialize<Section>(row.GetRawText())); ++count; break;
+                    case "user": DataBaseAccessor.Instance.CreateUser(JsonSerializer.Deserialize<User>(row.GetRawText())); ++count; break;
+                    case "competence": DataBaseAccessor.Instance.CreateCompetence(JsonSerializer.Deserialize<Competence>(row.GetRawText())); ++count; break;
+                    case "theme": DataBaseAccessor.Instance.CreateTheme(JsonSerializer.Deserialize<Theme>(row.GetRawText())); ++count; break;
+                }
+            }
+            return count.ToString();
         }
         //method:update 
         //params:[table_name:string , rows: []] 
-        public static string HandleUpdate(JsonElement param) {
-            return "0";
+        public static string HandleUpdate(JsonElement param)
+        {
+            var tableName = param.GetProperty("table_name").GetString();
+            int count = 0;
+            foreach (var row in param.EnumerateArray())
+            {
+                switch (tableName)
+                {
+                    case "course": DataBaseAccessor.Instance.UpdateCourse(JsonSerializer.Deserialize<Course>(row.GetRawText())); ++count; break;
+                    case "section": DataBaseAccessor.Instance.UpdateSection(JsonSerializer.Deserialize<Section>(row.GetRawText())); ++count; break;
+                    case "user": DataBaseAccessor.Instance.UpdateUser(JsonSerializer.Deserialize<User>(row.GetRawText())); ++count; break;
+                    case "competence": DataBaseAccessor.Instance.UpdateCompetence(JsonSerializer.Deserialize<Competence>(row.GetRawText())); ++count; break;
+                    case "theme": DataBaseAccessor.Instance.UpdateTheme(JsonSerializer.Deserialize<Theme>(row.GetRawText())); ++count; break;
+                }
+            }
+            return count.ToString();
         }
+
     }
+
 
 }

@@ -22,8 +22,6 @@ namespace TeacherARMBackend
                 Console.WriteLine("Cannot correctly parse arguments");
             }
 
-
-
             var listener = new ConnectionHandler(settings.ip, settings.port, CreateConnectionHandler());
 
             listener.StartHandling();
@@ -65,7 +63,7 @@ namespace TeacherARMBackend
                                     if (!Handlers.TableNames.Contains(el_table_name.GetString()))
                                         outputString = createError(el_table_name.GetString() + " is not exists");
                                     else
-                                        outputString = createResult(Handlers.HandleSelect(request.Params).ToString());
+                                        outputString = createResult(Handlers.HandleSelect(request.Params));
                                 else
                                     outputString = createError("Select request must contain table_name variable");
 
@@ -122,10 +120,6 @@ namespace TeacherARMBackend
             Console.WriteLine(DateTime.Now + ":IN:" + ctx.Request.RawUrl + ":OUT:" + outputString);
             return outputString.Replace("\\u0022", "\"");
         };
-
-
-
-
 
     }
 }
