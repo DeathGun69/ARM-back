@@ -12,14 +12,14 @@ namespace TeacherARMBackend
 
     public class Competence
     {
-        public int id { get; set; }
+        public int id { get; set; } =-1;
         public string name { get; set; }
         public int code { get; set; }
     }
 
     public class Course
     {
-        public int id { get; set; }
+        public int id { get; set; } = -1;
         public string name { get; set; }
         public string univer { get; set; }
         public int hours { get; set; }
@@ -31,7 +31,7 @@ namespace TeacherARMBackend
 
     public class Section
     {
-        public int id { get; set; }
+        public int id { get; set; } = -1;
         public string name { get; set; }
         public int id_theme { get; set; }
         public int id_course { get; set; }
@@ -39,7 +39,7 @@ namespace TeacherARMBackend
 
     public class Theme
     {
-        public int id { get; set; }
+        public int id { get; set; } = -1;
         public string name { get; set; }
         public int hours { get; set; }
         public int id_competence { get; set; }
@@ -48,7 +48,7 @@ namespace TeacherARMBackend
 
     public class User
     {
-        public int id { get; set; }
+        public int id { get; set; } = -1;
         public string name { get; set; }
         public string surname { get; set; }
         public string patronymic { get; set; }
@@ -90,18 +90,24 @@ namespace TeacherARMBackend
                 };
             conn.Close();
         }
+
+        private int ExecuteCommand(string text) {
+            using var conn = new NpgsqlConnection(CONNECTION_STRING);
+            conn.Open();
+            using var command = new NpgsqlCommand(text, conn);   
+            var count = command.ExecuteNonQuery();
+            conn.Close();
+            return count;
+        }
         //TODO:
-        public bool UpdateCompetence(Competence rows) {
-            return false;
-        }
+        public bool UpdateCompetence(Competence row) => 
+        ExecuteCommand($"UPDATE competence SET name = '{row.name}', code = {row.code} WHERE id = {row.id}") > 0 ? true : false;
 
-        public bool DeleteCompetence(int id) {
-            return false;
-        }
+        public bool DeleteCompetence(int id) =>
+        ExecuteCommand($"DELETE FROM competence WHERE id = {id}") > 0 ? true : false;
 
-        public bool CreateCompetence(Competence rows) {
-            return false;
-        }
+        public bool CreateCompetence(Competence row) =>
+        ExecuteCommand($"INSERT INTO competence (name, code) VALUES ('{row.name}', {row.code})") > 0 ? true : false;
 
         public IEnumerable<Course> GetCourses()
         {
@@ -123,16 +129,17 @@ namespace TeacherARMBackend
             conn.Close();
         }
         //TODO:
-        public bool UpdateCourse(Course rows) {
-            return false;
+        public bool UpdateCourse(Course row) {            
+            var groupsString = "{" + row.groups.ToList().Aggregate( (first, second) => first + "," + second) + "}"; 
+            return ExecuteCommand($"UPDATE course SET name='{row.name}', univer='{row.univer}', hours={row.hours}, groups='{groupsString}', id_teacher={row.id_teacher}, id_competence={row.id_competence} WHERE id = {row.id}") > 0 ? true : false;
         }
 
-        public bool DeleteCourse(int id) {
-            return false;
-        }
+        public bool DeleteCourse(int id) =>
+        ExecuteCommand($"DELETE FROM course WHERE id = {id}") > 0 ? true : false;
 
-        public bool CreateCourse(Course rows) {
-            return false;
+        public bool CreateCourse(Course row)  {
+            var groupsString = "{" + row.groups.ToList().Aggregate( (first, second) => first + "," + second) + "}"; 
+            return ExecuteCommand($"INSERT INTO course (name, univer, hours, groups, id_teacher, id_competence) VALUES ('{row.name}', '{row.univer}', {row.hours}, '{groupsString}', {row.id_teacher}, {row.id_competence} )") > 0 ? true : false;
         }
         //
         public IEnumerable<User> GetUsers()
@@ -153,19 +160,14 @@ namespace TeacherARMBackend
                 };
             conn.Close();
         }
-        //TODO:
-        public bool UpdateUser(User row) {
-            return false;
-        }
+        public bool UpdateUser(User row) => 
+        ExecuteCommand($"UPDATE arm_user  SET name='{row.name}', surname='{row.surname}', patronymic='{row.patronymic}', login='{row.login}', password='{row.password}' WHERE id = {row.id}") > 0 ? true : false;
 
-        public bool DeleteUser(int id) {
-            return false;
-        }
+        public bool DeleteUser(int id) =>
+        ExecuteCommand($"DELETE FROM arm_user WHERE id = {id}") > 0 ? true : false;
 
-        public bool CreateUser(User row) {
-            return false;
-        }
-        //
+        public bool CreateUser(User row) =>
+        ExecuteCommand($"INSERT INTO arm_user (name, surname, patronymic, login, password) VALUES ('{row.name}','{row.surname}','{row.patronymic}', '{row.login}','{row.password}')") > 0 ? true : false;
 
         public IEnumerable<Theme> GetThemes()
         {
@@ -185,18 +187,13 @@ namespace TeacherARMBackend
             conn.Close();
         }
         //TODO:
-        public bool UpdateTheme(Theme row) {
-            return false;
-        }
+        public bool UpdateTheme(Theme row)  =>
+        ExecuteCommand($"UPDATE theme SET name='{row.name}', hours={row.hours}, id_competence={row.id_competence}, lesson_type='{row.lesson_type}' WHERE id = {row.id}") > 0 ? true : false;
 
-        public bool DeleteTheme(int id) {
-            return false;
-        }
-
-        public bool CreateTheme(Theme row) {
-            return false;
-        }
-        //
+        public bool DeleteTheme(int id) =>
+        ExecuteCommand($"DELETE FROM theme WHERE id = {id}") > 0 ? true : false;
+        public bool CreateTheme(Theme row) =>
+        ExecuteCommand($"INSERT INTO theme (name, hours, id_competence, lesson_type) VALUES ('{row.name}', {row.hours}, {row.id_competence}, '{row.lesson_type}')") > 0 ? true : false;
 
 
         public IEnumerable<Section> GetSections()
@@ -216,37 +213,19 @@ namespace TeacherARMBackend
             conn.Close();
         }
         //TODO: 
-        public bool UpdateSection(Section row) {
-            return false;
-        }
+        public bool UpdateSection(Section row)  =>
+        ExecuteCommand($"UPDATE section SET name='{row.name}', id_theme={row.id_theme}, id_course={row.id_course} WHERE id = {row.id}") > 0 ? true : false;
 
-        public bool DeleteSection(int id) {
-            return false;
-        }
+        public bool DeleteSection(int id) =>
+        ExecuteCommand($"DELETE FROM section WHERE id = {id}") > 0 ? true : false;
 
-        public bool CreateSection(Section row) {
-            return false;
-        }
-        //
-
-
-        /*public static void Main(String[] args)
+        public bool CreateSection(Section row) =>
+        ExecuteCommand($"INSERT INTO section (name, id_theme, id_course) VALUES ('{row.name}', {row.id_theme}, {row.id_course})") > 0 ? true : false;
+        
+        public static void Main(String[] args)
         {
-            var db = new DataBaseAccessor();
-            foreach (var course in db.GetCourses())
-                Console.WriteLine(course.name, course.univer);
-            
-            foreach (var course in db.GetThemes())
-                Console.WriteLine(course.name, course.lesson_type);
-
-            foreach (var course in db.GetCompetence())
-                Console.WriteLine(course.name, course.code);
-
-            foreach (var course in db.GetUsers())
-                Console.WriteLine(course.name, course.login, course.password);
-
-            foreach (var course in db.GetSections())
-                Console.WriteLine(course.name, course.id_course);
-        }*/
+            DataBaseAccessor.Instance.CreateCourse(new Course{name="Курс", univer="ИрГУПС", hours=10, groups = new string[]{"первая", "вторая"}, id_teacher=1, id_competence=1});
+            //DataBaseAccessor.Instance.DeleteTheme(2);
+        }
     }
 }
