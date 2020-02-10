@@ -40,7 +40,7 @@ namespace TeacherARMBackend
                 case "update": Type = RequestType.Update; break;
                 case "select": Type = RequestType.Select; break;
             }
-            
+
             Params = input.GetProperty("params");
         }
 
@@ -73,28 +73,32 @@ namespace TeacherARMBackend
     public static class Handlers
     {
         public static string[] TableNames { get; } = { "course", "section", "user", "competence", "theme" };
-        
+
         //Вся валидация должна происходить до вызова методов. В коментах написаны сигнатуры методов АПИ   
         //method:test        
         public static string HandleTest() => "{\"message\":\"This is the Test response. If you read this message it means that server is running and ready to go\"}";
-       
+
         //method:select 
         //params:table_name:string
         public static string HandleSelect(JsonElement param)
         {
             var tableName = param.GetProperty("table_name").GetString();
+            
+             JsonSerializerOptions jso = new JsonSerializerOptions();            
+           jso.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
+           jso.PropertyNameCaseInsensitive = false;
+           jso.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+           jso.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
 
-            foreach (var row in param.EnumerateArray())
+            switch (tableName)
             {
-                switch (tableName)
-                {
-                    case "course": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetCourses());
-                    case "section": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetSections());
-                    case "user": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetUsers());
-                    case "competence": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetCompetence());
-                    case "theme": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetThemes());
-                }
+                case "course": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetCourses(), jso);
+                case "section": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetSections(), jso);
+                case "user": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetUsers(), jso);
+                case "competence": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetCompetence(), jso);
+                case "theme": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetThemes(), jso);
             }
+
             return "{}";
         }
         //method:delete 
@@ -122,7 +126,7 @@ namespace TeacherARMBackend
         {
             var tableName = param.GetProperty("table_name").GetString();
             int count = 0;
-            foreach (var row in param.EnumerateArray())
+            foreach (var row in param.GetProperty("rows").EnumerateArray())
             {
                 switch (tableName)
                 {

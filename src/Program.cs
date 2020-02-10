@@ -10,7 +10,7 @@ namespace TeacherARMBackend
 {
     class Program
     {
-        /*static void Main(string[] args)
+        static void Main(string[] args)
         {
             (string ip, string port) settings = ("*", "25555");
             try
@@ -25,14 +25,14 @@ namespace TeacherARMBackend
             var listener = new ConnectionHandler(settings.ip, settings.port, CreateConnectionHandler());
 
             listener.StartHandling();
-        }*/
+        }
 
         static (String ip, String port) ParseArgs(string[] args) => (args[0], args[1]);
 
         static Func<HttpListenerContext, String> CreateConnectionHandler() => (HttpListenerContext ctx) =>
         {
-            Func<String, String> createError = (String text) => "{\"error\":\"{\"" + text + "\"}";
-            Func<String, String> createResult = (String text) => "{\"result\":\"{\"" + text + "\"}";
+            Func<String, String> createError = (String text) => "{\"error\":\"" + text + "\"}";
+            Func<String, String> createResult = (String text) => "{\"result\":" + text + "}";
             ctx.Response.AddHeader("Content-Type", "application/json");
             var outputString = "";
 

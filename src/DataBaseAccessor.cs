@@ -221,11 +221,5 @@ namespace TeacherARMBackend
 
         public bool CreateSection(Section row) =>
         ExecuteCommand($"INSERT INTO section (name, id_theme, id_course) VALUES ('{row.name}', {row.id_theme}, {row.id_course})") > 0 ? true : false;
-        
-        public static void Main(String[] args)
-        {
-            DataBaseAccessor.Instance.CreateCourse(new Course{name="Курс", univer="ИрГУПС", hours=10, groups = new string[]{"первая", "вторая"}, id_teacher=1, id_competence=1});
-            //DataBaseAccessor.Instance.DeleteTheme(2);
-        }
     }
 }
