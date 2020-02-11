@@ -41,7 +41,9 @@ namespace TeacherARMBackend
                 case "select": Type = RequestType.Select; break;
             }
 
-            Params = input.GetProperty("params");
+            if (input.TryGetProperty("params", out var param)  ) {
+                Params = param;
+            }
         }
 
     }
@@ -107,11 +109,11 @@ namespace TeacherARMBackend
         {
             var tableName = param.GetProperty("table_name").GetString();
             int count = 0;
-            foreach (var row in param.EnumerateArray())
+            foreach (var row in param.GetProperty("rows").EnumerateArray())
             {
                 switch (tableName)
                 {
-                    case "course": DataBaseAccessor.Instance.DeleteCourse(row.GetInt32()); ++count; break;
+                    case "se": DataBaseAccessor.Instance.DeleteCourse(row.GetInt32()); ++count; break;
                     case "section": DataBaseAccessor.Instance.DeleteSection(row.GetInt32()); ++count; break;
                     case "user": DataBaseAccessor.Instance.DeleteUser(row.GetInt32()); ++count; break;
                     case "competence": DataBaseAccessor.Instance.DeleteCompetence(row.GetInt32()); ++count; break;
@@ -145,7 +147,7 @@ namespace TeacherARMBackend
         {
             var tableName = param.GetProperty("table_name").GetString();
             int count = 0;
-            foreach (var row in param.EnumerateArray())
+            foreach (var row in param.GetProperty("rows").EnumerateArray())
             {
                 switch (tableName)
                 {
