@@ -19,7 +19,7 @@ table{
     margin: 20px;
    padding: 10px;
 }
-.button {
+.add_kurs {
 margin-left: 10px;
 
     padding-left: 40px;
@@ -36,8 +36,19 @@ margin-left: 10px;
     transition: box-shadow .4s ease;  
     
 }
-.button:hover {
+.add_kurs:hover {
     width: 80%;
     background: #29b1f0;
     transition: 0.3s ;
+}
+#manu{
+    opacity: 1;
+}
+.page-wrap{
+    opacity: 1;
+}
+.form2{
+    position: fixed;
+    z-index: -1;
+    opacity: 0;
 }
