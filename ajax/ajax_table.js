@@ -47,9 +47,7 @@ function singin (){
           success:function(data_c){
             console.log(data_c)
             
-            $( ".tabb" ).append( '<th>'+data_c.result[data.result[i].id_competence-1].name+'</th>' )
-            $( ".tabb" ).append( '<th><div class="cl" value="'+data.result[i].id+'"><button class="recours" value>изменить </button><button class="delcours" value="'+data.result[i].id+'">удалить</button></div></th>' )   
-            $( ".tabb" ).append( '</tr>')
+            $( ".tabb" ).append( '<th>'+data_c.result[data.result[i].id_compete
           }
         });
       }    
@@ -58,7 +56,7 @@ function singin (){
   });
 }
 function addform (){
-
+  
 /*$( "head" ).append('<link rel="stylesheet" type="text/css" href="stylef.css" >');
   $( "body" ).append('<div id="back1f">  <div class="containerf"><div class="flex-center1f"><div class="login1f"><h2>Добавление курса</h2><div class="form1f"><p>Название</p><input id="in1f" type="text" placeholder="введите данные">')
   $( "body" ).append('<br><p>Университет</p><input id="in1f" type="text" placeholder="введите данные"><p>Kоличество часов</p><input id="in1f" type="text" placeholder="введите данные">')
