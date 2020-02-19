@@ -1,4 +1,5 @@
 body{
+
     background: #faf9f4;
     }
     #menu {
@@ -61,7 +62,8 @@ body{
      left: 0;
     }
     .page-wrap { 
-     padding: 50px;
+      padding-top: 30px;
+   padding-left: 20px;
      -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
      box-sizing: border-box;
@@ -72,6 +74,7 @@ body{
     }
     body.open .page-wrap {
      margin-left: 300px;
+    
     }
     button:focus {
      outline: none;
@@ -88,6 +91,7 @@ body{
      -moz-border-radius: 50px;
      border-radius: 50px;
      background: #2f568f;
+     z-index: 10;
     }
     #menu-toggle:before,
     #menu-toggle:after {

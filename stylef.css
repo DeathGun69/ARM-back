@@ -1,5 +1,14 @@
 
-.img{width: 30px;
+.form2{
+    top: 10%;
+    position: absolute;
+left: 30%;
+right: 30%;
+ 
+margin: 0 auto;
+}
+.img{
+    width: 30px;
 height: 30px;}
 .img:hover{
     width: 35px;
@@ -15,7 +24,7 @@ height: 30px;}
 
 .container-fluid {  
     padding: 0;
-    margin: 0;
+    margin: 0 auto;
 }
 
 
@@ -24,8 +33,7 @@ html, body {
     background-color: #1b7dce;
     height : 100%;
     padding: 0;
-    margin: 0;
-    
+    margin: 0 ;
 }
 #back1 {
     background : #c0d1e4;

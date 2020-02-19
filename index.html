@@ -8,14 +8,12 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" ></script>
         <script src="jsmenu.js" ></script>
         <script src="js_main.js" ></script>
-<script src="ajax/ajax_table.js" ></script>
-<script src="addkurs_js.js" ></script>
-<script src="ajax/delkurs.js" ></script>
-        <link rel="stylesheet" type="text/css" href="stylemenu.css" >
-        <link  id="z" rel="stylesheet" type="text/css" href="style.css" >
+<script src="ajax/ajax_main.js" ></script>
+        <link rel="stylesheet" type="text/css" href="stylemenu.css" ></link>
+        <link  id="z" rel="stylesheet" type="text/css" href="style.css" ></link>
         </head>
 <body>
-
+  <section id="s1">
     <div id="back1">
         <div class="flex-center1">
             <div class="login1">
@@ -25,17 +23,19 @@
                     <input id="log" type="text" placeholder="Пользователь">
                     <br>
                     <input id="pas" type="password" placeholder="Пароль"> 
-                    <a href="kurs2 3.html"></a>
-                    <button class="button singin"> Авторизацияe </button>
-                </a>
+                   
+                    <button class="button singin"> Авторизация </button>
+                
                 </div>
              
             </div>    
         </div>
       
     </div> 
-    
-<div class="form2"><div id="back2 back_add">
+  </section>
+  <section id="s2">
+    <div id='f1' class="form2">
+        <div id="back2 back_add">
 
     <div class="flex-center1">
         <div class="login1">
@@ -45,16 +45,15 @@
               <p>Название</p>
                 <input id="name" type="text" placeholder="введите данные">
                 <br>
-                <p>id</p>
-                <input id="idd" type="text" placeholder="введите данные">
-                <br>
                 <p>Университет</p>
                 <input id="un" type="text" placeholder="введите данные">
                 <p>Kоличество часов</p>
                 <input id="h" type="text" placeholder="введите данные">
                 <br>
                 <p>учитель</p>
-                <input id="t" type="text" placeholder="введите данные">
+                <select id="tch" >
+                  
+              </select>
                 <br>
               
 
@@ -99,8 +98,70 @@
          
         </div>    
     </div>
-  </div>
+  </section>
+  
+
+
+
+
+
+
+
+  <div id='f2' class="form2">
+    <div id="back2 back_add">
+
+<div class="flex-center1">
+    <div class="login1">
+    <h2>Добавление компетенции</h2>
+        
+        <div class="form1">
+          <p>Название</p>
+            <input id="name" type="text" placeholder="введите данные">
+            <br>
+            <p>код</p>
+            <input id="un" type="text" placeholder="введите данные">
+   
+            <div class="but">
+                <tr>
+            <th><button class="buttonr">  отмена  </button></th>
+            <th></th><button class="button b_add_com">добавить </button></th>
+            </tr>
+            </div>
+             </div>
+            </div>
+        </div>
+     
+    </div>    
 </div>
+
+
+
+
+<div id='f3' class="form2">
+  <div id="back2 back_add">
+
+<div class="flex-center1">
+  <div class="login1">
+  <h2>Добавление группы</h2>
+      
+      <div class="form1">
+        <p>Название</p>
+          <input id="name" type="text" placeholder="введите данные">
+          <br>
+          <p>код</p>
+          <input id="un" type="text" placeholder="введите данные">
+ 
+          <div class="but">
+              <tr>
+          <th><button class="buttonr">  отмена  </button></th>
+          <th></th><button class="button b_add_group">добавить </button></th>
+          </tr>
+          </div>
+           </div>
+          </div>
+      </div>
+   
+  </div>    
 </div>
 
 
@@ -111,26 +172,31 @@
 
 
 
-  <nav id="menu" role="navigation">
+
+
+
+
+ 
+    <nav id="menu" role="navigation">
     <ul>
-      <li><a href="#">курсы</a></li>
-      <li><a href="#">компетенции</a></li>
-      <li><a href="#">группы</a></li>
+      <li class='cours_menu'><a href="#">курсы</a></li>
+      <li class='competenc_menu'><a href="#">компетенции</a></li>
+      <li class="group_menu"><a href="#">группы</a></li>
       <li><a href="#">...</a></li>
       <li><a href="#">...</a></li>
     </ul> 
-  </nav>
-   
-  <div class="page-wrap">
+    </nav>
+
+     <div class="page-wrap">
    
     <button id="menu-toggle"></button>
-   
-    <div class="container-fluid">
-      <div class="row">
+    <div class="cours_page p_pos">
+      <div class="container-fluid">
+        <div class="row">
         <table class="table table-striped table-hover">
           <div class="title">
           <h1>Список курсов</h1>
-          </div>
+          </div> 
           <thead class="tabt">     
             <tr >
              <th>назание</th>
@@ -147,11 +213,65 @@
               
           </tbody>
         </table>
-      </div>
+        </div>
       <a class="add_kurs" href='#' >ДОБАВИТЬ КУРС</a>
+      </div>
     </div>
     
-  </div>
+    <div class="competenc_page p_pos" posicion>
+      <div class="container-fluid">
+        <div class="row" >
+      
+        <table class="table table-striped table-hover">
+          <div class="title">
+          <h1>Список компетенций</h1>
+          </div> 
+          <thead class="tabt">     
+            <tr >
+             <th>назание</th>
+             <th>код компетенции</th>
+            
+             <th><div class="cl">
+             </div></th>
+            </tr> 
+          </thead>
+          <tbody class="tabb">
+            
+              
+          </tbody>
+        </table>
+        </div>
+      <a class="add_competenc" href='#' >ДОБАВИТЬ КОПЕТЕНЦИЮ</a>
+      </div>
+    </div>
+
+    <div class="group_page p_pos" posicion>
+      <div class="container-fluid">
+        <div class="row">
+        <table class="table table-striped table-hover">
+          <div class="title">
+          <h1>Список групп</h1>
+          </div> 
+          <thead class="tabt">     
+            <tr >
+             <th>назание</th>
+             <th>код</th>
+             <th><div class="cl">
+             </div></th>
+            </tr> 
+          </thead>
+          <tbody class="tabb">
+            
+              
+          </tbody>
+        </table>
+        </div>
+      <a class="add_group" href='#' >ДОБАВИТЬ ГРУППУ</a>
+      </div>
+    </div>
+
+    </div>
+    </div>
 
 </body>
-   </html>
+</html>
