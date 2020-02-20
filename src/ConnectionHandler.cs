@@ -21,7 +21,8 @@ namespace TeacherARMBackend {
             while (true) {
                 var ctx = _listener.GetContext();
                 var output = _handler(ctx);                
-                ctx.Response.OutputStream.Write(System.Text.Encoding.UTF8.GetBytes(output));                
+                ctx.Response.AppendHeader("Access-Control-Allow-Origin", "*");
+                ctx.Response.OutputStream.Write(System.Text.Encoding.UTF8.GetBytes(output));                        
                 ctx.Response.Close();
             }
         }

@@ -22,7 +22,8 @@ namespace TeacherARMBackend
             Insert,
             Delete,
             Update,
-            Select
+            Select,
+            Authorize
         }
         public RequestType Type { get; } = RequestType.None;
 
@@ -39,123 +40,116 @@ namespace TeacherARMBackend
                 case "delete": Type = RequestType.Delete; break;
                 case "update": Type = RequestType.Update; break;
                 case "select": Type = RequestType.Select; break;
+                case "auth": Type = RequestType.Authorize; break;
             }
 
-            if (input.TryGetProperty("params", out var param)  ) {
+            if (input.TryGetProperty("params", out var param))
+            {
                 Params = param;
             }
         }
 
     }
-    class TestResponse
-    {
-    }
-
-    /*ITeacherDataBase dataBase = MockDataBase.DataBase;
-           var cources = dataBase.GetCourses();
-           var lessons = dataBase.GetLessons();
-           var themes = dataBase.GetThemes();
-
-           var response = new SelectResponse();
-
-
-           //что то не так с кодировками 
-           JsonSerializerOptions jso = new JsonSerializerOptions();            
-           jso.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
-           jso.PropertyNameCaseInsensitive = false;
-           jso.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-           jso.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
-           response.result.Add("cources", JsonSerializer.Serialize<IEnumerable<Course>>(cources, jso));
-           response.result.Add("lessons", JsonSerializer.Serialize<IEnumerable<Lesson>>(lessons, jso));
-           response.result.Add("themes", JsonSerializer.Serialize<IEnumerable<Theme>>(themes,jso));
-
-           return JsonSerializer.Serialize<Dictionary<string, string>>(response.result, jso);*/
-
-
     public static class Handlers
     {
-        public static string[] TableNames { get; } = { "course", "section", "user", "competence", "theme" };
+        private static SessionManager _sesMan = new SessionManager();
 
-        //Вся валидация должна происходить до вызова методов. В коментах написаны сигнатуры методов АПИ   
+        //Вся валидация должна происходить до вызова методов. В комментах написаны сигнатуры методов АПИ   
         //method:test        
         public static string HandleTest() => "{\"message\":\"This is the Test response. If you read this message it means that server is running and ready to go\"}";
+        
+        public static string HandleAuth(JsonElement param) {
+            var login = param.GetProperty("login").GetString();
+            var password = param.GetProperty("password").GetString();
 
+            var session = _sesMan.Authorize(login, password);
+            if (session != null) 
+                return "\"" + session.Token + "\"";
+            else throw new Exception("User not found!");
+        }
         //method:select 
         //params:table_name:string
         public static string HandleSelect(JsonElement param)
         {
-            var tableName = param.GetProperty("table_name").GetString();
-            
-             JsonSerializerOptions jso = new JsonSerializerOptions();            
-           jso.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
-           jso.PropertyNameCaseInsensitive = false;
-           jso.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-           jso.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
-
-            switch (tableName)
-            {
-                case "course": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetCourses(), jso);
-                case "section": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetSections(), jso);
-                case "user": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetUsers(), jso);
-                case "competence": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetCompetence(), jso);
-                case "theme": return JsonSerializer.Serialize(DataBaseAccessor.Instance.GetThemes(), jso);
+            if (_sesMan.CheckToken(param.GetProperty("token").GetString()) == null) {                
+                throw new Exception("Invalid token");
             }
 
-            return "{}";
+            var tableName = param.GetProperty("table_name").GetString();
+
+            JsonSerializerOptions jso = new JsonSerializerOptions();
+            jso.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
+            jso.PropertyNameCaseInsensitive = false;
+            jso.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            jso.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+
+            var helper = EntityProvider.Instance.Tables[tableName];
+            return JsonSerializer.Serialize(helper.GetType().GetMethod("GetAllRows").Invoke(helper, null), jso);
         }
         //method:delete 
-        //params:[table_name: string, rows: []] 
+        //params:[table_name: string, rows: [int]] 
         public static string HandleDelete(JsonElement param)
         {
+
+            if (_sesMan.CheckToken(param.GetProperty("token").GetString()) == null) {
+                throw new Exception("Invalid token");
+            }
+
             var tableName = param.GetProperty("table_name").GetString();
             int count = 0;
+            var helper = EntityProvider.Instance.Tables[tableName];
+            var method = helper.GetType().GetMethod("DeleteRow");
             foreach (var row in param.GetProperty("rows").EnumerateArray())
             {
-                switch (tableName)
-                {
-                    case "se": DataBaseAccessor.Instance.DeleteCourse(row.GetInt32()); ++count; break;
-                    case "section": DataBaseAccessor.Instance.DeleteSection(row.GetInt32()); ++count; break;
-                    case "user": DataBaseAccessor.Instance.DeleteUser(row.GetInt32()); ++count; break;
-                    case "competence": DataBaseAccessor.Instance.DeleteCompetence(row.GetInt32()); ++count; break;
-                    case "theme": DataBaseAccessor.Instance.DeleteTheme(row.GetInt32()); ++count; break;
+                if (method.Invoke(helper, new object[] {row.GetInt32()})) {
+                    ++count;
                 }
             }
             return count.ToString();
         }
         //method:insert
-        //params:[table_name: string, rows: []] 
+        //params:[table_name: string, rows: [Object]] 
         public static string HandleInsert(JsonElement param)
         {
+
+            if (_sesMan.CheckToken(param.GetProperty("token").GetString()) == null) {
+                throw new Exception("Invalid token");
+            }
+
             var tableName = param.GetProperty("table_name").GetString();
             int count = 0;
+
+            var helper = EntityProvider.Instance.Tables[tableName];
+            var objectType = helper.GetType().BaseType.GetGenericArguments()[0];
+            
+            var method = helper.GetType().GetMethod("InsertRow");
             foreach (var row in param.GetProperty("rows").EnumerateArray())
             {
-                switch (tableName)
-                {
-                    case "course": DataBaseAccessor.Instance.CreateCourse(JsonSerializer.Deserialize<Course>(row.GetRawText())); ++count; break;
-                    case "section": DataBaseAccessor.Instance.CreateSection(JsonSerializer.Deserialize<Section>(row.GetRawText())); ++count; break;
-                    case "user": DataBaseAccessor.Instance.CreateUser(JsonSerializer.Deserialize<User>(row.GetRawText())); ++count; break;
-                    case "competence": DataBaseAccessor.Instance.CreateCompetence(JsonSerializer.Deserialize<Competence>(row.GetRawText())); ++count; break;
-                    case "theme": DataBaseAccessor.Instance.CreateTheme(JsonSerializer.Deserialize<Theme>(row.GetRawText())); ++count; break;
+                if (method.Invoke(helper, new object[]{ JsonSerializer.Deserialize(row.GetRawText(), objectType)})) {
+                    ++count;
                 }
             }
             return count.ToString();
         }
         //method:update 
-        //params:[table_name:string , rows: []] 
+        //params:[table_name:string , rows: [Object]] 
         public static string HandleUpdate(JsonElement param)
         {
+
+            if (_sesMan.CheckToken(param.GetProperty("token").GetString()) == null) {
+                throw new Exception("Invalid token");
+            }
+            
             var tableName = param.GetProperty("table_name").GetString();
             int count = 0;
+            var helper = EntityProvider.Instance.Tables[tableName];
+            var objectType = helper.GetType().BaseType.GetGenericArguments()[0];
+            
+            var method = helper.GetType().GetMethod("UpdateRow");
             foreach (var row in param.GetProperty("rows").EnumerateArray())
             {
-                switch (tableName)
-                {
-                    case "course": DataBaseAccessor.Instance.UpdateCourse(JsonSerializer.Deserialize<Course>(row.GetRawText())); ++count; break;
-                    case "section": DataBaseAccessor.Instance.UpdateSection(JsonSerializer.Deserialize<Section>(row.GetRawText())); ++count; break;
-                    case "user": DataBaseAccessor.Instance.UpdateUser(JsonSerializer.Deserialize<User>(row.GetRawText())); ++count; break;
-                    case "competence": DataBaseAccessor.Instance.UpdateCompetence(JsonSerializer.Deserialize<Competence>(row.GetRawText())); ++count; break;
-                    case "theme": DataBaseAccessor.Instance.UpdateTheme(JsonSerializer.Deserialize<Theme>(row.GetRawText())); ++count; break;
+                if (method.Invoke(helper, new object[]{ JsonSerializer.Deserialize(row.GetRawText(), objectType)})) {
+                    ++count;
                 }
             }
             return count.ToString();
