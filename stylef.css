@@ -1,5 +1,19 @@
-
-.form2{
+.modal-content {
+    background-color: #ffffff;
+    padding: 5px 5px 5px 5px;
+}
+.modal-content .close {
+    color: #fff;
+    opacity: 1;
+}
+.modal-body p{
+   font: 1em sans-serif;
+}
+.modal-header{
+background-color: #357db8;
+color: #fff;
+}
+.modal .form2{
     top: 10%;
     position: absolute;
 left: 30%;
@@ -7,35 +21,29 @@ right: 30%;
  
 margin: 0 auto;
 }
-.img{
+.modal .img{
     width: 30px;
 height: 30px;}
-.img:hover{
+.modal .img:hover{
     width: 35px;
     height: auto;
     transition: 0.3s ;
 }
-.form{
+.modal .form{
     background-color: #fff;
    position: absolute;
 
 }
 
 
-.container-fluid {  
+.modal .container-fluid {  
     padding: 0;
     margin: 0 auto;
 }
 
 
 
-html, body {
-    background-color: #1b7dce;
-    height : 100%;
-    padding: 0;
-    margin: 0 ;
-}
-#back1 {
+.modal #back1 {
     background : #c0d1e4;
     height: 100%;
     min-height: 500px;
@@ -43,12 +51,12 @@ html, body {
     justify-content: center;
     align-items: center;
 }
-.flex-center1 {
+.modal .flex-center1 {
     display: flex;
     justify-content: center;
     align-items: center;   
 }
-.login1{
+.modal .login1{
   animation: anim 1s forwards;
     position: relative;
     margin: 0 auto;
@@ -58,7 +66,7 @@ html, body {
     padding: 15px 15px 0 15px;
 }
 
- h2 {
+.modal h2 {
     text-align: center;
     font-weight: 200;
     font-size: 2em;
@@ -67,30 +75,30 @@ html, body {
     border-bottom: 1px solid #eeeeee;
     color: #474747;
 }
- .form1 {
+.modal .form1 {
     padding-top: 20px;
     text-align: left;
   
 }
- input[type="text"], 
- input[type="password"],
- button {
+.modal input[type="text"], 
+.modal input[type="password"],
+.modal button {
     margin-bottom: 25px;
     height: 40px;
     outline: 0;
 }
- input[type="text"],
- input[type="password"] {
+.modal input[type="text"],
+.modal input[type="password"] {
     border: 1px solid #bbb;
     padding: 0 0 0 5px;
     font-size: 20px;
 }
- input[type="text"]:focus,
- input[type="password"]:focus {
+.modal input[type="text"]:focus,
+.modal input[type="password"]:focus {
     border: 2px solid #2196f3;
     transition: 0.2s ;
 }
- .button {
+.modal .button {
     width: 150px;
     background: #1b7dce;
     border: none;
@@ -101,12 +109,12 @@ html, body {
     transition: box-shadow .4s ease;
     border-radius: 2rem;
 }
-.button:hover {
+.modal .button:hover {
     
     background: #29b1f0;
     transition: 0.3s ;
 }
-.buttonr {
+.modal .buttonr {
    width: 100px;
     background: #939ca3;
     border: none;
@@ -118,21 +126,21 @@ html, body {
     border-radius: 2rem;
     margin-right: 0px;
 }
-.buttonr:hover {
+.modal .buttonr:hover {
     color: #000;
   
     background: #ffffff;
     transition: 0.3s ;
     border-radius: 2rem;
 }
-.but{
+.modal .but{
    
     text-align: right;
     margin-right: 20px;
     border-top: 1px solid #eeeeee;
     padding-top: 20px;
 }
-p{
+.modal p{
     margin-left: 10px;
     text-align: left;
     font-weight: 200px;
@@ -141,12 +149,12 @@ p{
     padding: 0 0 10px 0; 
     color: #474747;
 }
-img{
+.modal img{
     margin-left: 10px;
     margin-left: 10px;
     
 }
-th{text-align: center;}
-select{width: auto;
+.modal th{text-align: center;}
+.modal select{width: auto;
 height: 30px;
 margin-bottom: 30px;}
