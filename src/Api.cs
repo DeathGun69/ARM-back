@@ -1,5 +1,6 @@
 using System.IO;
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -63,27 +64,40 @@ namespace TeacherARMBackend
             var password = param.GetProperty("password").GetString();
 
             var session = _sesMan.Authorize(login, password);
-            if (session != null) 
+            if (session != null) {
+                Console.WriteLine("Добавляю: " + session.Token);
                 return "\"" + session.Token + "\"";
+            }
             else throw new Exception("User not found!");
         }
         //method:select 
         //params:table_name:string
         public static string HandleSelect(JsonElement param)
         {
-            if (_sesMan.CheckToken(param.GetProperty("token").GetString()) == null) {                
+            var token = param.GetProperty("token").GetString();
+            var session = _sesMan.CheckToken(token);
+            if (session == null) {                
                 throw new Exception("Invalid token");
-            }
+            }          
 
             var tableName = param.GetProperty("table_name").GetString();
 
+            
+            var helper = EntityProvider.Instance.Tables[tableName];
+            var objectType = helper.GetType().BaseType.GetGenericArguments()[0];
+
+            //Объект для сериализации объектов            
             JsonSerializerOptions jso = new JsonSerializerOptions();
             jso.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
             jso.PropertyNameCaseInsensitive = false;
             jso.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             jso.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+            
+            if (objectType == typeof(Course) && !session.User.is_admin) {
+                return JsonSerializer.Serialize(EntityProvider.Instance.CourseHelper.GetAllRows().Where(x => x.id_teacher == session.User.id), jso);
+            }
 
-            var helper = EntityProvider.Instance.Tables[tableName];
+                        
             return JsonSerializer.Serialize(helper.GetType().GetMethod("GetAllRows").Invoke(helper, null), jso);
         }
         //method:delete 

@@ -59,9 +59,9 @@ namespace TeacherARMBackend
                 return param;
             };
             Func<JsonElement, JsonElement> checkAuth = (JsonElement param) => {
-               // if (!param.TryGetProperty("token", out _)) {
-                    //throw new Exception("Not allowed");
-              //  }
+                if (!param.TryGetProperty("token", out _)) {
+                    throw new Exception("Not allowed");
+                }
                 return param;
             };
 
@@ -126,6 +126,7 @@ namespace TeacherARMBackend
                 catch (Exception ex)
                 {
                     outputString = createError(ex.Message);
+                    Console.WriteLine(ex.Message);
                 }
             }
             Console.WriteLine(DateTime.Now + ":IN:" + ctx.Request.RawUrl + ":OUT:" + outputString);

@@ -1,4 +1,5 @@
 using System;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Collections;
 using System.Linq;
@@ -6,12 +7,10 @@ using System.Collections.Generic;
 
 namespace TeacherARMBackend {
 
-    enum Role {
-        USER
-    }
     class Session {
         public string Token;
-        public Role Role;
+
+        public User User;
 
         public DateTime LastTime;
     }
@@ -35,12 +34,22 @@ namespace TeacherARMBackend {
             _sesCloseThread = new Thread(new ThreadStart(this.EternalClosing));
             _sesCloseThread.Start();
         }
-        public Session Authorize(string login, string pass) {
-            Console.WriteLine(login + " " + pass);            
-            if (_accessor.ExecuteWithResult($"SELECT id FROM arm_user WHERE login='{login}' and password='{pass}'").Any()) {
+        public Session Authorize(string login, string pass) {      
+            var user = _accessor.ExecuteWithResult($"SELECT id, name, surname, patronymic, login, password, is_admin FROM arm_user WHERE login='{login}' and password='{pass}'").Select(x => new User {
+                        id = (int) x[0],
+                        name = (string) x[1],
+                        surname = (string) x[2],
+                        patronymic = (string) x[3],
+                        login = (string) x[4],
+                        password = (string) x[5],
+                        is_admin = (bool) x[6]                                                
+                    });
+
+            if (user.Any()) {
                 Session session = new Session() {
-                    Token = Convert.ToBase64String(Guid.NewGuid().ToByteArray()),
-                    LastTime = DateTime.Now                    
+                    Token = Regex.Replace(Convert.ToBase64String(Guid.NewGuid().ToByteArray()), "[/+=]", ""),                    
+                    LastTime = DateTime.Now,
+                    User = user.First()  
                 };
                 Sessions.Add(session.Token, session);
                 return session;
