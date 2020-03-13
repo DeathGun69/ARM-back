@@ -29,6 +29,7 @@ namespace TeacherARMBackend {
         public string univer { get; set; }
         public int hours { get; set; }
         public int id_teacher { get; set; }
+        public string info {get; set;}
 
     }
 
@@ -57,7 +58,8 @@ namespace TeacherARMBackend {
     public class Theme : DataBaseEntity
     {
         public string name { get; set; }        
-        public int id_section { get; set; }        
+        public int id_section { get; set; }   
+        public string info {get; set;}
     }
 
     public class ThemeCompetence : DataBaseEntity {
