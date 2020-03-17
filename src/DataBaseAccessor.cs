@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-using Npgsql;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
 
 
@@ -13,17 +14,17 @@ namespace TeacherARMBackend
     //Класс который предоставляет возможность для выполнения запросов к БД. Инициализирует соединения и вообще должен решать инфрастутурные вопросы по соединению с БД
     public class DataBaseAccessor 
     {
-        static string CONNECTION_STRING = "Host=127.0.0.1;Port=5432;Username=admin;Password=admin;Database=arm_teacher";
+        static string CONNECTION_STRING = "server=127.0.0.1;uid=admin;pwd=admin;database=arm_teacher";
 
         public DataBaseAccessor()
         {
-            //TODO: Check connection to DB
+
         }
 
-        public IEnumerable<NpgsqlDataReader> ExecuteWithResult(string query) {
-            using (var conn = new NpgsqlConnection(CONNECTION_STRING)) {
+        public IEnumerable<MySqlDataReader > ExecuteWithResult(string query) {
+            using (var conn = new MySqlConnection(CONNECTION_STRING)) {
                 conn.Open();
-                using var command = new NpgsqlCommand(query, conn);
+                using var command = new MySqlCommand(query, conn);
                 using var reader = command.ExecuteReader();
                 while (reader.Read()) {
                     yield return reader;
@@ -34,9 +35,9 @@ namespace TeacherARMBackend
         {
             try
             {
-                using var conn = new NpgsqlConnection(CONNECTION_STRING);
+                using var conn = new MySqlConnection(CONNECTION_STRING);
                 conn.Open();
-                using var command = new NpgsqlCommand(text, conn);
+                using var command = new MySqlCommand(text, conn);
                 var count = command.ExecuteNonQuery();
                 conn.Close();
                 return count;
