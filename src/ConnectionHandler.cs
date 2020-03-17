@@ -8,9 +8,9 @@ namespace TeacherARMBackend {
     class ConnectionHandler {
         protected HttpListener _listener {get;} = new HttpListener();
 
-        protected Func<HttpListenerContext, String> _handler {get; }
+        protected Func<HttpListenerContext, byte[]> _handler {get; }
 
-        public ConnectionHandler(string ip, string port , Func<HttpListenerContext, String> handler) {
+        public ConnectionHandler(string ip, string port , Func<HttpListenerContext, byte[]> handler) {
             string host = $"http://{ip}:{port}/";
             _listener.Prefixes.Add(host); 
             _handler = handler;
@@ -22,7 +22,7 @@ namespace TeacherARMBackend {
                 var ctx = _listener.GetContext();
                 var output = _handler(ctx);                
                 ctx.Response.AppendHeader("Access-Control-Allow-Origin", "*");
-                ctx.Response.OutputStream.Write(System.Text.Encoding.UTF8.GetBytes(output));                        
+                ctx.Response.OutputStream.Write(output);                        
                 ctx.Response.Close();
             }
         }

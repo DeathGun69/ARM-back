@@ -13,6 +13,7 @@ namespace TeacherARMBackend
     {
         static void Main(string[] args)
         {
+            
             (string ip, string port) settings = ("*", "25555");
             try
             {
@@ -26,11 +27,12 @@ namespace TeacherARMBackend
             var listener = new ConnectionHandler(settings.ip, settings.port, CreateConnectionHandler());
 
             listener.StartHandling();
-        }
+                    }
+
 
         static (String ip, String port) ParseArgs(string[] args) => (args[0], args[1]);
         //TODO: очень жирный метод вышел, надо разбить
-        static Func<HttpListenerContext, String> CreateConnectionHandler() => (HttpListenerContext ctx) =>
+        static Func<HttpListenerContext, byte[]> CreateConnectionHandler() => (HttpListenerContext ctx) =>
         {
             Func<String, String> createError = (String text) => "{\"error\":\"" + text + "\"}";
             Func<String, String> createResult = (String text) => "{\"result\":" + text + "}";
@@ -118,7 +120,21 @@ namespace TeacherARMBackend
                             {                                
                                 checkAuth(checkRows(checkTable(request.Params)));
                                 outputString = createResult(Handlers.HandleUpdate(request.Params));
+                                
                                 break;
+                            }
+                        case RequestBody.RequestType.Document:
+                            {
+                                checkAuth(request.Params);
+                                var doc = Handlers.HandleDocument(request.Params);
+                                ctx.Response.ContentType = "application/octet-stream";
+                                ctx.Response.ContentLength64 = doc.Length;
+                                ctx.Response.AddHeader(
+                    "Content-Disposition",
+                    "Attachment; filename=\"doc.docx\"");
+                    
+                                Console.WriteLine(DateTime.Now + ":IN:" + ctx.Request.RawUrl + ":OUT:" + outputString);
+                                return doc;
                             }
                     }
 
@@ -130,7 +146,7 @@ namespace TeacherARMBackend
                 }
             }
             Console.WriteLine(DateTime.Now + ":IN:" + ctx.Request.RawUrl + ":OUT:" + outputString);
-            return outputString.Replace("\\u0022", "\"");
+            return System.Text.Encoding.UTF8.GetBytes(outputString.Replace("\\u0022", "\""));
         };
 
     }
