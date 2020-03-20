@@ -14,7 +14,7 @@ namespace TeacherARMBackend
     //Класс который предоставляет возможность для выполнения запросов к БД. Инициализирует соединения и вообще должен решать инфрастутурные вопросы по соединению с БД
     public class DataBaseAccessor 
     {
-        static string CONNECTION_STRING = "server=127.0.0.1;uid=admin;pwd=admin;database=arm_teacher";
+        static string CONNECTION_STRING = "server=127.0.0.1;uid=root;database=arm_teacher";
 
         public DataBaseAccessor()
         {

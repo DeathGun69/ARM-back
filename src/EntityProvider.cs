@@ -18,7 +18,7 @@ namespace TeacherARMBackend {
         public CourseHelper(DataBaseAccessor accessor) : base(accessor) {}
     } 
     public class SectionHelper : DataBaseSqlHelper<Section> {
-        public override string TableName => "section";
+        public override string TableName => "ssection";
         public SectionHelper(DataBaseAccessor accessor) : base(accessor) {}
     } 
    

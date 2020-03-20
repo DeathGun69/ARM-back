@@ -4,7 +4,7 @@ namespace TeacherARMBackend {
     public class Group : DataBaseEntity
     {        
         public string name { get; set; }
-        public int code { get; set; }
+        public uint code { get; set; }
 
     }
     public class User : DataBaseEntity
@@ -27,27 +27,27 @@ namespace TeacherARMBackend {
     {
         public string name { get; set; }
         public string univer { get; set; }
-        public int hours { get; set; }
-        public int id_teacher { get; set; }
+        public uint hours { get; set; }
+        public uint id_teacher { get; set; }
         public string info {get; set;}
 
     }
 
     public class CourseGroups : DataBaseEntity 
     {
-        public int id_group {get; set;}
-        public int id_course {get; set; }
+        public uint id_group {get; set;}
+        public uint id_course {get; set; }
     }
 
     public class CoursePlan : DataBaseEntity {
-        public int id_course {get; set;}
-        public int id_section {get; set; }
+        public uint id_course {get; set;}
+        public uint id_section {get; set; }
     }
 
     public class Lesson : DataBaseEntity {
-        public int hours {get; set;}
+        public uint hours {get; set;}
         public string type {get; set;}
-        public int id_theme {get; set;}
+        public uint id_theme {get; set;}
     }
      public class Section : DataBaseEntity
     {
@@ -58,13 +58,13 @@ namespace TeacherARMBackend {
     public class Theme : DataBaseEntity
     {
         public string name { get; set; }        
-        public int id_section { get; set; }   
+        public uint id_section { get; set; }   
         public string info {get; set;}
     }
 
     public class ThemeCompetence : DataBaseEntity {
-        public int id_theme {get; set;}
-        public int id_competence {get; set;}
+        public uint id_theme {get; set;}
+        public uint id_competence {get; set;}
     }
 
 }

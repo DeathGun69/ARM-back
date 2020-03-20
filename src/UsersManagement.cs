@@ -36,7 +36,7 @@ namespace TeacherARMBackend {
         }
         public Session Authorize(string login, string pass) {      
             var user = _accessor.ExecuteWithResult($"SELECT id, name, surname, patronymic, login, password, is_admin FROM arm_user WHERE login='{login}' and password='{pass}'").Select(x => new User {
-                        id = (int) x[0],
+                        id = (uint) x[0],
                         name = (string) x[1],
                         surname = (string) x[2],
                         patronymic = (string) x[3],

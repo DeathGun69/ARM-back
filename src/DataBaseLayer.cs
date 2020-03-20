@@ -8,7 +8,7 @@ namespace TeacherARMBackend
 {    
     public class DataBaseEntity
     {
-        public int id { get; set; }
+        public uint id { get; set; }
     }
 
     //сериализатор объектов и помощник по созданию  sql запросов (чтобы не писать для каждой сущности свои запросы)    

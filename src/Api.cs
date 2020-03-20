@@ -196,7 +196,7 @@ namespace TeacherARMBackend
                 throw new Exception("Invalid token");
             }
 
-            int id = session.User.id;
+            uint id = session.User.id;
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
             ComponentInfo.FreeLimitReached += (sender, e) => e.FreeLimitReachedAction = FreeLimitReachedAction.ContinueAsTrial;
 
